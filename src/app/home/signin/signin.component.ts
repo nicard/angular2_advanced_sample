@@ -25,6 +25,7 @@ export class SigninComponent implements OnInit {
       userName: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.setFocus();
   }
 
   login() {
@@ -37,10 +38,14 @@ export class SigninComponent implements OnInit {
       }, () => {
         alert('Invalid user name or password');
         this.loginForm.reset();
-        if (this.platformDetectionService.isPlatformBrowser()) {
-          this.userNameInput.nativeElement.focus();
-        }
+        this.setFocus();
       });
+  }
+
+  private setFocus() {
+    if (this.platformDetectionService.isPlatformBrowser()) {
+      this.userNameInput.nativeElement.focus();
+    }
   }
 
 }
