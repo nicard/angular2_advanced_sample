@@ -4,9 +4,10 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {RequestInterceptor} from './auth/request.interceptor';
+import {FooterComponent} from './footer/footer.component';
 
 @NgModule({
-  declarations: [HeaderComponent],
+  declarations: [HeaderComponent, FooterComponent],
   imports: [
     CommonModule,
     RouterModule
@@ -18,7 +19,7 @@ import {RequestInterceptor} from './auth/request.interceptor';
       multi: true
     }
   ],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent, FooterComponent]
 })
 export class CoreModule {
 
