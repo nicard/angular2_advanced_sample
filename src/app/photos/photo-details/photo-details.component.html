@@ -1,0 +1,29 @@
+<div class="bg-white border" *ngIf="(photo$ | async) as photo">
+  <div class="row">
+    <div class="col-lg-8">
+      <app-photo [src]="photo.url" [description]="photo.description"></app-photo>
+    </div>
+    <div class="col-lg-4 p-4">
+      <div class="text-left mb-4">
+        <i appShowIfLogged (click)="like(photo)" class="fa fa-heart-o fa-1x mr-2 ml-2">
+          {{ photo.likes }}
+        </i>
+        <i class="fa fa-comment-o fa-1x mr-2 ml-2">{{ photo.comments }}</i>
+        <i appPhotoOwnerOnly [ownedPhoto]="photo" class="fa fa-trash-o fa-2x pull-right" (click)="remove()"></i>
+      </div>
+      <small>
+        <p class="text-left break-word">{{ photo.description }}</p>
+        <hr>
+      </small>
+      <div class="mt-4">
+        <app-photo-comments
+          *ngIf="photo.allowComments; else warning"
+          [photoId]="photo.id">
+        </app-photo-comments>
+        <ng-template #warning>
+          <p>User has disabled comments for this photo.</p>
+        </ng-template>
+      </div>
+    </div><!-- col-md-4 -->
+  </div><!-- row end -->
+</div>
