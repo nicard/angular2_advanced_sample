@@ -6,9 +6,11 @@ import {NewUser} from './new-user';
 import {SignupService} from './signup.service';
 import {Router} from '@angular/router';
 import {PlatformDetectorService} from '../../core/platform/platform.detector.service';
+import {User} from '../../core/user/user.interface';
 
 @Component({
-  templateUrl: './signup.component.html'
+  templateUrl: './signup.component.html',
+  providers: [ UserNotTakenValidatorService ]
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
