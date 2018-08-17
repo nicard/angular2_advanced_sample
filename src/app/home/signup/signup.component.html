@@ -57,7 +57,7 @@
   <div class="form-group">
     <input formControlName="password" type="password" class="form-control" placeholder="password">
     <app-vmessage
-      text="User name is require"
+      text="Password is require"
       *ngIf="signupForm.get('password').errors && signupForm.get('password').errors['required'] && (form.submitted || signupForm.get('password').touched)"
     ></app-vmessage>
     <app-vmessage
@@ -67,6 +67,10 @@
     <app-vmessage
       text="Maximun length is 14"
       *ngIf="signupForm.get('password').errors && signupForm.get('password').errors['maxlength'] && (form.submitted || signupForm.get('password').touched)"
+    ></app-vmessage>
+    <app-vmessage
+      text="Password can't be like username"
+      *ngIf="signupForm.errors && signupForm.errors['userNamePassword'] && (form.submitted || signupForm.get('password').touched)"
     ></app-vmessage>
   </div>
   <button class="btn btn-primary btn-block">Register</button>

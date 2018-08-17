@@ -6,8 +6,8 @@ import {NewUser} from './new-user';
 import {SignupService} from './signup.service';
 import {Router} from '@angular/router';
 import {PlatformDetectorService} from '../../core/platform/platform.detector.service';
-import {User} from '../../core/user/user.interface';
 import {AlertService} from '../../shared/components/alert/alert.service';
+import {usernamePasswordValidator} from './username-password.validator';
 
 @Component({
   templateUrl: './signup.component.html',
@@ -57,6 +57,8 @@ export class SignupComponent implements OnInit {
           Validators.maxLength(14)
         ]
       ]
+    }, {
+      validator: usernamePasswordValidator
     });
 
     this.setFocus();
