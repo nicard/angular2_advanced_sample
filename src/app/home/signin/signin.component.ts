@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../core/auth/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PlatformDetectorService} from '../../core/platform/platform.detector.service';
 import {AlertService} from '../../shared/components/alert/alert.service';
 
@@ -13,11 +13,13 @@ export class SigninComponent implements OnInit {
 
   loginForm: FormGroup;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
+  private fromUrl: string;
 
   constructor(
     private fromBuilder: FormBuilder,
     private service: AuthService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
     private platformDetectionService: PlatformDetectorService
   ) { }
@@ -37,7 +39,13 @@ export class SigninComponent implements OnInit {
       this.service
         .authenticate(userName, password)
         .subscribe(() => {
-          this.router.navigate(['user', userName]);
+          this.activatedRoute.queryParams
+            .subscribe(params => this.fromUrl = params.fromUrl);
+          if (this.fromUrl) {
+            this.router.navigateByUrl(this.fromUrl);
+          } else {
+            this.router.navigate(['user', userName]);
+          }
         }, () => {
           this.alertService.danger('Invalid user name or password');
           this.loginForm.reset();
