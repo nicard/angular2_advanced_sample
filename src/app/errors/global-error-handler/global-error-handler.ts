@@ -5,6 +5,7 @@ import {LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {UserService} from '../../core/user/user.service';
 import {ServerLoggerService} from './server-logger.service';
 import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -22,7 +23,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     console.log('Passei pelo error handler');
     const message = error.message ? error.message : error.toString();
 
-    router.navigate(['/error']);
+    if (environment.production) {
+      router.navigate(['/error']);
+    }
     StackTrace
       .fromError(error)
       .then((stackFrames) => {
