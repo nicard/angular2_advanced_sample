@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../core/auth/auth.service';
 import {Router} from '@angular/router';
 import {PlatformDetectorService} from '../../core/platform/platform.detector.service';
+import {AlertService} from '../../shared/components/alert/alert.service';
 
 @Component({
   templateUrl: './signin.component.html',
@@ -17,6 +18,7 @@ export class SigninComponent implements OnInit {
     private fromBuilder: FormBuilder,
     private service: AuthService,
     private router: Router,
+    private alertService: AlertService,
     private platformDetectionService: PlatformDetectorService
   ) { }
 
@@ -29,17 +31,21 @@ export class SigninComponent implements OnInit {
   }
 
   login() {
-    const userName = this.loginForm.get('userName').value;
-    const password =  this.loginForm.get('password').value;
-    this.service
-      .authenticate(userName, password)
-      .subscribe(() => {
-        this.router.navigate(['user', userName]);
-      }, () => {
-        alert('Invalid user name or password');
-        this.loginForm.reset();
-        this.setFocus();
-      });
+    if (!this.loginForm.invalid && !this.loginForm.pending){
+      const userName = this.loginForm.get('userName').value;
+      const password =  this.loginForm.get('password').value;
+      this.service
+        .authenticate(userName, password)
+        .subscribe(() => {
+          this.router.navigate(['user', userName]);
+        }, () => {
+          this.alertService.danger('Invalid user name or password');
+          this.loginForm.reset();
+          this.setFocus();
+        });
+    } else {
+      this.alertService.danger('Please, type username and password');
+    }
   }
 
   private setFocus() {

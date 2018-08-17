@@ -7,6 +7,7 @@ import {SignupService} from './signup.service';
 import {Router} from '@angular/router';
 import {PlatformDetectorService} from '../../core/platform/platform.detector.service';
 import {User} from '../../core/user/user.interface';
+import {AlertService} from '../../shared/components/alert/alert.service';
 
 @Component({
   templateUrl: './signup.component.html',
@@ -20,6 +21,7 @@ export class SignupComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userNotTakenValidorService: UserNotTakenValidatorService,
     private router: Router,
+    private alertService: AlertService,
     private signupService: SignupService,
     private platformDetectionService: PlatformDetectorService
   ) { }
@@ -61,12 +63,18 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
-    const newUser = this.signupForm.getRawValue() as NewUser;
-    this.signupService
-      .signup(newUser)
-      .subscribe(() => {
-        this.router.navigate(['']);
-      }, err => console.log(err));
+    if (!this.signupForm.invalid  && !this.signupForm.pending) {
+      const newUser = this.signupForm.getRawValue() as NewUser;
+      this.signupService
+        .signup(newUser)
+        .subscribe(() => {
+          this.alertService.success('New user register', true);
+          this.router.navigate(['']);
+        }, err => {
+          this.alertService.danger('Could not possible to register user', true);
+          console.log(err);
+        });
+    }
   }
 
   private setFocus() {
