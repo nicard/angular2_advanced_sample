@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 import {LoadingService} from './loading.service';
-import {viewClassName} from '@angular/compiler';
 
 
 @Injectable({providedIn: 'root'})
