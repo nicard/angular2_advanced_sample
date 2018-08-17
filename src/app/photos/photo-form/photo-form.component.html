@@ -48,11 +48,20 @@
         </label>
       </div>
 
-      <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary btn-block">
-        Upload
-      </button>
+      <div *ngIf="!percenteDone; else uploadProgress">
+        <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary btn-block">
+          Upload
+        </button>
+        <a [routerLink]="['']" class="btn btn-secondary btn-block">Cancel</a>
+      </div>
 
-      <a class="btn btn-secondary btn-block">Cancel</a>
+      <ng-template #uploadProgress>
+        <div class="text-center display-4"> uploading </div>
+        <div class="progress">
+          <div class="progress-bar"[style.width]="percenteDone+'%'" role="progressbar" aria-valuenow="0"  aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+      </ng-template>
     </div>
   </form>
 </div>
