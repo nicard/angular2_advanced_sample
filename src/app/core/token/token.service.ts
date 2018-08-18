@@ -1,22 +1,33 @@
 import {Injectable} from '@angular/core';
+import {PlatformDetectorService} from '../platform/platform.detector.service';
 const KEY = 'authToken';
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
+
+  constructor(private platformDetectorService: PlatformDetectorService) { }
+
   hasToken() {
     return !!this.getToken();
   }
 
   setToken(token: string) {
-    window.localStorage.setItem(KEY, token);
+    if (this.platformDetectorService.isPlatformBrowser()){
+        window.localStorage.setItem(KEY, token);
+    }
   }
 
   getToken() {
-    return window.localStorage.getItem(KEY);
+    if (this.platformDetectorService.isPlatformBrowser()) {
+      return window.localStorage.getItem(KEY);
+    }
+    return null;
   }
 
   removeToken() {
-    window.localStorage.removeItem(KEY);
+    if (this.platformDetectorService.isPlatformBrowser()) {
+      window.localStorage.removeItem(KEY);
+    }
   }
 }
